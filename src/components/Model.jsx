@@ -1,9 +1,9 @@
 import { useGSAP } from "@gsap/react"
 import gsap from "gsap";
-import ModelView from "./modelView";
+import ModelView from './ModelView'
 import { useEffect, useRef, useState } from "react";
 import { yellowImg } from "../utils";
-
+import { animateWithGsapTimeline } from "../utils/animation";
 import * as THREE from 'three';
 import { Canvas } from "@react-three/fiber";
 import { View } from "@react-three/drei";
@@ -29,6 +29,28 @@ const Model = () => {
   // rotation
   const [smallRotation, setSmallRotation] = useState(0);
   const [largeRotation, setLargeRotation] = useState(0);
+  
+  const tl =gsap.timeline();
+
+  useEffect(()=>{
+    if(size === 'large'){
+      animateWithGsapTimeline(tl,small,smallRotation,'#view1','#view2',{
+        transform: 'translate(-100%)',
+        duration:2 
+      })
+
+    }
+    if(size === 'small'){
+      animateWithGsapTimeline(tl,large,largeRotation,'#view2','#view1',{
+        transform: 'translate(0)',
+        duration:2 
+      })
+
+
+    }
+  },[size])
+
+
 
   
 
@@ -38,7 +60,7 @@ const Model = () => {
         <h1 id="heading" className="section-heading">
           Take a closer look.
         </h1>
-
+ 
         <div className="flex flex-col items-center mt-5">
           <div className="w-full h-[75vh] md:h-[90vh] overflow-hidden relative">
             <ModelView 

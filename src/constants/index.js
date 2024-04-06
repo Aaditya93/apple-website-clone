@@ -11,7 +11,7 @@ import {
 
 export const navLists = ["Store", "Mac", "iPhone", "Support"];
 
-export const hightlights = [
+export const hightlightsSlides = [
   {
     id: 1,
     textLists: [

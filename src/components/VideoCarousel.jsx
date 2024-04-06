@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/all";
 gsap.registerPlugin(ScrollTrigger);
 import { useEffect, useRef, useState } from "react";
 
-import { hightlights } from "../constants";
+import { hightlightsSlides } from "../constants";
 import { pauseImg, playImg, replayImg } from "../utils";
 
 const VideoCarousel = () => {
@@ -94,14 +94,26 @@ const VideoCarousel = () => {
       });
 
       if (videoId == 0) {
-        anim.restart();
+        // Check if videoRef.current is defined and not null
+        if (videoRef.current) {
+          // Check if videoRef.current[videoId] exists and is not null
+          if (videoRef.current[videoId]) {
+            anim.restart();
+          } else {
+            console.error(`Video element with ID ${videoId} is null or undefined.`);
+          }
+        } else {
+          console.error('videoRef.current is null or undefined.');
+          // Optionally, you can add additional error handling or fallback behavior here
+        }
       }
+      
 
       // update the progress bar
       const animUpdate = () => {
         anim.progress(
           videoRef.current[videoId].currentTime /
-            hightlights[videoId].videoDuration
+            hightlightsSlides[videoId].videoDuration
         );
       };
 
@@ -158,7 +170,7 @@ const VideoCarousel = () => {
   return (
     <>
       <div className="flex items-center">
-        {hightlights.map((list, i) => (
+        {hightlightsSlides.map((list, i) => (
           <div key={list.id} id="slider" className="sm:pr-20 pr-10">
             <div className="video-carousel_container">
               <div className="w-full h-full flex-center rounded-3xl overflow-hidden bg-black">
